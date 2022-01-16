@@ -24,13 +24,14 @@ def read_input(file_name: str):
   return (dimensions, n_clusters, edges, clusters)
 
 if __name__ == '__main__':
-  random.seed(sys.argv[2] if len(sys.argv) > 1 else 0)
+  seed = sys.argv[2] if len(sys.argv) > 1 else 0
+  random.seed(seed)
   INPUT_FOLDER = "input_data\\"
   OUTPUT_FOLDER = "output_data\\"
-  FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Small\\5berlin52.txt"
-  # FILE_NAME = "Type_1_Large\\150nrw1379.txt"
+  # FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Small\\5berlin52.txt"
+  FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Large\\150nrw1379.txt"
   INPUT_FILE_NAME= INPUT_FOLDER + FILE_NAME
-  OUTPUT_FILE_NAME= OUTPUT_FOLDER + FILE_NAME
+  OUTPUT_FILE_NAME= OUTPUT_FOLDER + FILE_NAME.split(".")[0] + "_seed" + seed + ".txt"
   (dimensions, n_clusters, edges, clusters) = read_input(INPUT_FILE_NAME)
 
   # print(dimensions)

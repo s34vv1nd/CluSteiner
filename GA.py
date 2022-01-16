@@ -9,7 +9,7 @@ from graph import ClusteredSteinerGraph
 
 POP_SIZE = 50
 MUTATION_RATE = 0.05
-MAX_NO_IMPROVE = 10
+MAX_NO_IMPROVE = 20
 MAX_GEN = 50
 MAX_EVAL = 2500
 

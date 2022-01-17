@@ -7,11 +7,11 @@ import random
 from SPH import SPH, cluster_SPH
 from graph import ClusteredSteinerGraph
 
-POP_SIZE = 50
+POP_SIZE = 100
 MUTATION_RATE = 0.05
-MAX_NO_IMPROVE = 20
-MAX_GEN = 50
-MAX_EVAL = 2500
+MAX_NO_IMPROVE = 500
+MAX_GEN = 100
+MAX_EVAL = 10000
 
 GA_Result = namedtuple("GA_Result", ["gen_best", "best"])
 
@@ -31,10 +31,10 @@ class GA:
       self.current_gen[tuple(permutation)] = inf
 
   def evaluate(self, pop, ind):
-    if (not ind in pop or  pop[ind] == inf) and self.total_eval < MAX_EVAL:
+    if ((not (ind in pop)) or (pop[ind] == inf)) and (self.total_eval < MAX_EVAL):
       pop[ind] = cluster_SPH(self.graph, ind)
       self.total_eval += 1
-    return pop[ind]
+    return pop[ind] if (ind in pop) else inf
 
   def evaluation(self):
     best = (None, inf)

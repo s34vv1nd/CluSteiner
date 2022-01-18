@@ -7,15 +7,16 @@ from fibheap import *
 from timeit import default_timer as timer
 
 
-def SPH(stgraph: SteinerGraph):
+def SPH(stgraph: SteinerGraph, r=None):
   # st = timer()
   n = max(stgraph.nodes) + 1
   is_target = [False for i in range(n)]
   for i in stgraph.targets:
     is_target[i] = True
   
-  r = random.choice(stgraph.targets)
-  tree = Tree([r], [])
+  if r == None:
+    r = random.choice(stgraph.targets)
+  tree = Tree({r}, [])
 
   dist = []
   for i in range(n):

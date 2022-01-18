@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Set
 from heapq import *
 
 
@@ -23,12 +23,12 @@ class ClusteredSteinerGraph(SteinerGraph):
 
 
 class Tree:
-  def __init__(self, nodes: List[int], edges: List=[]) -> None:
+  def __init__(self, nodes: Set[int], edges: List=[]) -> None:
     self.nodes = nodes.copy()
     self.edges = edges.copy()
 
   def add_node(self, u):
-    self.nodes.append(u)
+    self.nodes.add(u)
 
   def add_edge(self, u, v, w):
     self.edges.append((u, v, w))

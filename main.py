@@ -2,7 +2,6 @@ from os import fdopen
 import random
 import sys
 from GA import GA
-from SPH import SPH, cluster_SPH
 from graph import ClusteredSteinerGraph, Graph
 from timeit import default_timer as timer
 

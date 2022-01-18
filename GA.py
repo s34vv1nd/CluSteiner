@@ -4,8 +4,8 @@ from cmath import inf
 from collections import namedtuple
 from math import factorial
 import random
-from SPH import SPH, cluster_SPH
-from graph import ClusteredSteinerGraph
+from SPH import SPH
+from graph import ClusteredSteinerGraph, SteinerGraph
 
 POP_SIZE = 100
 MUTATION_RATE = 0.05
@@ -32,7 +32,7 @@ class GA:
 
   def evaluate(self, pop, ind):
     if ((not (ind in pop)) or (pop[ind] == inf)) and (self.total_eval < MAX_EVAL):
-      pop[ind] = cluster_SPH(self.graph, ind)
+      pop[ind] = build_clusteiner(self.graph, SPH, ind)
       self.total_eval += 1
     return pop[ind] if (ind in pop) else inf
 
@@ -97,3 +97,71 @@ class GA:
         break
 
     return GA_Result(self.gen_best, best)
+
+
+def build_clusteiner(graph, solver, order=None):
+  if not order:
+    order = random.sample(range(len(graph.clusters)), len(graph.clusters))
+  # print("Clusters order:", order)
+
+  n = max(graph.nodes) + 1
+
+  # free vertices that do not belong to any cluster (yet)
+  free = []
+  for i in graph.nodes:
+    if not i in graph.targets:
+      free.append(i)
+
+  # print(sorted(free))
+
+  trees = []  # an array to store local trees
+  sum = 0     # store the sum of costs of all local trees
+  for c in order:
+    # create a Steiner graph with current cluster's vertices and current remaining free vertices
+    stgraph = SteinerGraph(graph.clusters[c] + free, graph.edges, graph.clusters[c])
+
+    # run SPH for cluster c
+    tree = solver(stgraph)
+
+    # store the local tree
+    trees.append(tree)
+
+    # eliminate used free vertices
+    for i in free:
+      if i in tree.nodes:
+        free.remove(i)
+
+    # add cost of local tree to sum
+    sum += tree.cost()
+  
+  # create super nodes representing clusters
+  nodes = free
+  targets = []
+  group = [i for i in range(n)]
+  for tree in trees:
+    nodes.append(n)
+    targets.append(n)
+    for i in tree.nodes:
+      group[i] = n
+    n += 1
+  
+  # create the edges between new nodes
+  # st = timer()
+  edges = [[inf for __ in range(n)] for _ in range(n)]
+  m = len(graph.edges)
+  for i in range(m):
+    for j in range(m):
+      edges[group[i]][group[j]] = min(edges[group[i]][group[j]], graph.edges[i][j])
+  
+  # en = timer()
+  # print("Runtime (", m, " edges): ", en - st)
+
+  # run SPH on the new compressed graph
+  tree = solver(SteinerGraph(nodes, edges, targets))
+  # print(sorted(tree.nodes))
+
+  # add the inter-cluster links' cost
+  sum += tree.cost()
+
+  # return the total cost
+  return sum

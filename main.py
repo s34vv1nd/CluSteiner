@@ -1,7 +1,7 @@
 from os import fdopen
 import random
 import sys
-from GA import GA
+from GA import GA, build_clusteiner
 from MST import MST
 from SPH import SPH
 from graph import ClusteredSteinerGraph, Graph
@@ -29,8 +29,8 @@ if __name__ == '__main__':
   random.seed(seed)
   INPUT_FOLDER = "input_data\\"
   OUTPUT_FOLDER = "output_data\\"
-  FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Small\\5berlin52.txt"
-  # FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Large\\10a280.txt"
+  # FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Small\\5berlin52.txt"
+  FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Large\\10a280.txt"
   INPUT_FILE_NAME= INPUT_FOLDER + FILE_NAME
   OUTPUT_FILE_NAME= OUTPUT_FOLDER + FILE_NAME.split(".")[0] + "_seed" + str(seed) + ".txt"
   (dimensions, n_clusters, edges, clusters) = read_input(INPUT_FILE_NAME)
@@ -45,19 +45,21 @@ if __name__ == '__main__':
   graph = ClusteredSteinerGraph(nodes, edges, clusters)
 
   start = timer()
-  # result = GA(graph).run()
-  result = MST(graph)
+  result = GA(graph).run()
+  # result = MST(graph)
+  # result = min(build_clusteiner(graph, SPH) for _ in range(10000))
+  # result = build_clusteiner(graph, SPH)
   end = timer()
 
-  # with open(OUTPUT_FILE_NAME, "w+") as f:
-  #   f.write("Generations:\n")
-  #   for i, gen in enumerate(result.gen_best):
-  #     f.write(str(i) + ": " + str(gen) + "\n")
-  #   f.write("Best: " + str(result.best) + "\n")
-  #   f.write("Runtime: " + str(end - start) + " s")
-
   with open(OUTPUT_FILE_NAME, "w+") as f:
-    f.write("Best: " + str(result) + "\n")
+    f.write("Generations:\n")
+    for i, gen in enumerate(result.gen_best):
+      f.write(str(i) + ": " + str(gen) + "\n")
+    f.write("Best: " + str(result.best) + "\n")
     f.write("Runtime: " + str(end - start) + " s")
+
+  # with open(OUTPUT_FILE_NAME, "w+") as f:
+  #   f.write("Best: " + str(result) + "\n")
+  #   f.write("Runtime: " + str(end - start) + " s")
 
   

@@ -1,5 +1,3 @@
-
-
 from cmath import inf
 from collections import namedtuple
 from math import factorial

@@ -3,7 +3,6 @@ from typing import List
 import random
 from graph import ClusteredSteinerGraph, Graph, SteinerGraph, Tree
 from heapq import *
-from fibheap import *
 from timeit import default_timer as timer
 
 

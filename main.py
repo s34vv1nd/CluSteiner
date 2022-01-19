@@ -45,21 +45,21 @@ if __name__ == '__main__':
   graph = ClusteredSteinerGraph(nodes, edges, clusters)
 
   start = timer()
-  result = GA(graph).run()
-  # result = MST(graph)
+  # result = GA(graph).run()
+  result = MST(graph)
   # result = min(build_clusteiner(graph, SPH) for _ in range(10000))
   # result = build_clusteiner(graph, SPH)
   end = timer()
 
-  with open(OUTPUT_FILE_NAME, "w+") as f:
-    f.write("Generations:\n")
-    for i, gen in enumerate(result.gen_best):
-      f.write(str(i) + ": " + str(gen) + "\n")
-    f.write("Best: " + str(result.best) + "\n")
-    f.write("Runtime: " + str(end - start) + " s")
-
   # with open(OUTPUT_FILE_NAME, "w+") as f:
-  #   f.write("Best: " + str(result) + "\n")
+  #   f.write("Generations:\n")
+  #   for i, gen in enumerate(result.gen_best):
+  #     f.write(str(i) + ": " + str(gen) + "\n")
+  #   f.write("Best: " + str(result.best) + "\n")
   #   f.write("Runtime: " + str(end - start) + " s")
+
+  with open(OUTPUT_FILE_NAME, "w+") as f:
+    f.write("Best: " + str(result) + "\n")
+    f.write("Runtime: " + str(end - start) + " s")
 
   

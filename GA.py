@@ -99,7 +99,7 @@ class GA:
 
 def build_clusteiner(graph, solver, order=None):
   if not order:
-    order = random.sample(range(len(graph.clusters)), len(graph.clusters))
+    order = random_permutation(len(graph.clusters))
   # print("Clusters order:", order)
 
   n = max(graph.nodes) + 1
@@ -163,3 +163,10 @@ def build_clusteiner(graph, solver, order=None):
 
   # return the total cost
   return sum
+
+def random_permutation(n):
+  p = [i for i in range(n)]
+  for i in range(n):
+    j = random.randint(0, i)
+    p[i], p[j] = p[j], p[i]
+  return p

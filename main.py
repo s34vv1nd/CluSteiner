@@ -1,4 +1,5 @@
 from os import fdopen
+import os
 import pathlib
 import random
 import sys
@@ -35,6 +36,10 @@ if __name__ == '__main__':
   pathlib.Path(OUTPUT_FOLDER + FILE_NAME.split("\\")[0]).mkdir(parents=True, exist_ok=True)
   INPUT_FILE_NAME= INPUT_FOLDER + FILE_NAME
   OUTPUT_FILE_NAME= OUTPUT_FOLDER + ".".join(FILE_NAME.split(".")[:-1]) + "_seed" + str(seed) + ".txt"
+
+  if os.path.isfile(OUTPUT_FILE_NAME):
+    exit(0)
+
   (dimensions, n_clusters, edges, clusters) = read_input(INPUT_FILE_NAME)
 
   # print(dimensions)
@@ -43,6 +48,10 @@ if __name__ == '__main__':
   # print(n_clusters)
   # print(edges)
   # print(clusters)
+  MIN_DIMENSIONS = int(sys.argv[5]) if len(sys.argv) > 5 else 0
+  MAX_DIMENSIONS = int(sys.argv[4]) if len(sys.argv) > 4 else 1000
+  if dimensions > MAX_DIMENSIONS or dimensions < MIN_DIMENSIONS:
+    exit(0)
 
   graph = ClusteredSteinerGraph(nodes, edges, clusters)
 

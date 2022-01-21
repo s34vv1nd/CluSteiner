@@ -1,4 +1,5 @@
 from os import fdopen
+import pathlib
 import random
 import sys
 from GA import GA, build_clusteiner
@@ -25,14 +26,15 @@ def read_input(file_name: str):
   return (dimensions, n_clusters, edges, clusters)
 
 if __name__ == '__main__':
-  seed = sys.argv[2] if len(sys.argv) > 1 else 0
+  seed = int(sys.argv[2]) if len(sys.argv) > 2 else 0
   random.seed(seed)
   INPUT_FOLDER = "input_data\\"
   OUTPUT_FOLDER = "output_data\\"
   FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Small\\5berlin52.txt"
   # FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Large\\10a280.txt"
+  pathlib.Path(OUTPUT_FOLDER + FILE_NAME.split("\\")[0]).mkdir(parents=True, exist_ok=True)
   INPUT_FILE_NAME= INPUT_FOLDER + FILE_NAME
-  OUTPUT_FILE_NAME= OUTPUT_FOLDER + FILE_NAME.split(".")[0] + "_seed" + str(seed) + ".txt"
+  OUTPUT_FILE_NAME= OUTPUT_FOLDER + ".".join(FILE_NAME.split(".")[:-1]) + "_seed" + str(seed) + ".txt"
   (dimensions, n_clusters, edges, clusters) = read_input(INPUT_FILE_NAME)
 
   # print(dimensions)
@@ -44,11 +46,17 @@ if __name__ == '__main__':
 
   graph = ClusteredSteinerGraph(nodes, edges, clusters)
 
+  alg = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+
   start = timer()
-  # result = GA(graph).run()
-  # result = MST(graph)
-  result = min(build_clusteiner(graph, SPH) for _ in range(10000))
-  # result = build_clusteiner(graph, SPH)
+  if alg == 0:
+    result = GA(graph).run().best[1]
+  elif alg == 1:
+    result = min(build_clusteiner(graph, SPH) for _ in range(10000))
+  elif alg == 2:
+    result = MST(graph)[2]
+  else:
+    print("Invalid algorithm")
   end = timer()
 
   # with open(OUTPUT_FILE_NAME, "w+") as f:

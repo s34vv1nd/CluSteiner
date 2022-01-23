@@ -49,7 +49,7 @@ if __name__ == '__main__':
   # print(edges)
   # print(clusters)
   MIN_DIMENSIONS = int(sys.argv[5]) if len(sys.argv) > 5 else 0
-  MAX_DIMENSIONS = int(sys.argv[4]) if len(sys.argv) > 4 else 1000
+  MAX_DIMENSIONS = int(sys.argv[4]) if len(sys.argv) > 4 else 500
   if dimensions > MAX_DIMENSIONS or dimensions < MIN_DIMENSIONS:
     exit(0)
 

@@ -72,27 +72,28 @@ class GA:
   def run(self):
     self.initialize()
     best = self.evaluation()
-    for self.iter in range(MAX_GEN):
-      offspring = {}
-      for _ in range(POP_SIZE // 2):
-        [p1, p2] = random.sample(self.current_gen.keys(), 2)
-        c1 = self.crossover(p1, p2)
-        c2 = self.crossover(p2, p1)
-        offspring[c1] = self.evaluate(offspring, c1)
-        offspring[c2] = self.evaluate(offspring, c2)
-      
-      for p in random.sample(self.current_gen.keys(), int(MUTATION_RATE * POP_SIZE)):
-        c = self.mutate(p)
-        offspring[c] = self.evaluate(offspring, c)
+    if self.n_genes > 1:
+      for self.iter in range(MAX_GEN):
+        offspring = {}
+        for _ in range(POP_SIZE // 2):
+          [p1, p2] = random.sample(self.current_gen.keys(), 2)
+          c1 = self.crossover(p1, p2)
+          c2 = self.crossover(p2, p1)
+          offspring[c1] = self.evaluate(offspring, c1)
+          offspring[c2] = self.evaluate(offspring, c2)
+        
+        for p in random.sample(self.current_gen.keys(), min(len(self.current_gen), int(MUTATION_RATE * POP_SIZE))):
+          c = self.mutate(p)
+          offspring[c] = self.evaluate(offspring, c)
 
-      self.selection({**self.current_gen, **offspring})
-      gen_best = self.evaluation()
-      if best[1] > gen_best[1]:
-        best = gen_best
-        self.last_improve = self.iter
+        self.selection({**self.current_gen, **offspring})
+        gen_best = self.evaluation()
+        if best[1] > gen_best[1]:
+          best = gen_best
+          self.last_improve = self.iter
 
-      if self.total_eval >= MAX_EVAL or self.iter - self.last_improve >= MAX_NO_IMPROVE:
-        break
+        if self.total_eval >= MAX_EVAL or self.iter - self.last_improve >= MAX_NO_IMPROVE:
+          break
 
     return GA_Result(self.gen_best, best)
 

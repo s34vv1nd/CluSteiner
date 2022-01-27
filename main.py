@@ -31,7 +31,7 @@ if __name__ == '__main__':
   random.seed(seed)
   INPUT_FOLDER = "input_data\\"
   OUTPUT_FOLDER = "output_data\\"
-  FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Small\\5berlin52.txt"
+  FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_6_Small\\2lin105-2x1.txt"
   # FILE_NAME = sys.argv[1] if len(sys.argv) > 1 else "Type_1_Large\\10a280.txt"
   pathlib.Path(OUTPUT_FOLDER + FILE_NAME.split("\\")[0]).mkdir(parents=True, exist_ok=True)
   INPUT_FILE_NAME= INPUT_FOLDER + FILE_NAME

@@ -1,0 +1,2 @@
+Best: 689
+Runtime: 6.07257 s

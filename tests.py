@@ -8,10 +8,10 @@ import sys
 
 if __name__ == '__main__':
   alg = sys.argv[1] if len(sys.argv) > 1 else 0
-  for instype in ['Type_1_Small', 'Type_1_Large', 'Type_6_Small', 'Type_6_Large', 'Type_5_Small', 'Type_5_Large', 'Type_2', 'Type_3_Large']:
+  for instype in ['Type_6_Small', 'Type_5_Small', 'Type_1_Small']:
     print(instype)
-    INPUT_FOLDER = "input_data\{}".format(instype)
-    OUTPUT_FOLDER = "output_data\Type_1_Small"
+    INPUT_FOLDER = "input_data-1\{}".format(instype)
+    OUTPUT_FOLDER = "output_data\{}".format(instype)
     pathlib.Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
     for file in listdir(INPUT_FOLDER):
       for seed in range(30):

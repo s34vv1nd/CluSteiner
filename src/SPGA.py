@@ -13,7 +13,7 @@ MAX_EVAL = 10000
 
 GA_Result = namedtuple("GA_Result", ["gen_best", "best"])
 
-class GA:
+class SPGA:
   def __init__(self, graph: ClusteredSteinerGraph):
     self.graph = graph
     self.n_genes = len(graph.clusters)

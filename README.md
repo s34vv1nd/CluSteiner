@@ -1,4 +1,4 @@
-# Shortest Path Genetic Algorithm (SPGA)
+# Shortest Path Genetic Algorithm (SPGA) for Clustered Steiner Tree problem
 
 ## Le Minh Hai Phong - 20170221
 
